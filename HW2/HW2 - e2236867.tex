@@ -1,0 +1,56 @@
+\documentclass[10pt,a4paper, margin=1in]{article}
+\usepackage{fullpage}
+\usepackage{amsfonts, amsmath, pifont}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\graphicspath{ {./} }
+
+\usepackage{float}
+\usepackage{multirow}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=10mm,
+ right=10mm,
+ top=10mm,
+ bottom=10mm,
+ }
+ \author{
+  Ağış, Fırat\\
+  \texttt{e2236867@ceng.metu.edu.tr}
+}
+\title{CENG 371 - Scientific Computing \\
+Fall 2022 \\
+Homework 2}
+\begin{document}
+\maketitle
+
+\noindent\rule{19cm}{1.2pt}
+
+\begin{enumerate}
+    \item %Q1.a
+    	If we compare the implementations of Sherman's March, Pickett's March, and Crout's Method using the equation $$\frac{\|A_n - L_n U_n \|_2}{\|A_n\|_2} $$ to calculate the relative error, we obtain Figure \ref{RelError}. The absurd difference between Crout's Method and the others probably mean the implementation of the Crout's Method algorithm is faulty but interestingly, if we are only considering the upper triangular part of the result of $L_nU_n$, it is more accurate than both Sherman's March and Pickett's March. This might mean that if not for the implementation errors, most likely the Crout's Method would have performed the best in terms of accuracy. \\
+    	When comparing the algorithms execution time-wise, given in Figure \ref{Time}, it is harder to argue faulty numerical errors to influence Crout's Method speed, meaning it significantly under-performs in the speed department. Especially the shape of Crout's Method in Figure \ref{Time} means it has about the same time complexity when compared to the other algorithms, which would be what we expect.\\
+    	If the accuracy of a correctly implemented Crout's Method could justify its runtime, a case for its usage can be made, but between the other two methods, Picket's Charge outperforms Sherman's March in accuracy and time, unlike how during the American Civil War, Sherman's side (The Union) defeated the Pickett's side (The Confederacy).
+    	\begin{figure}[h]
+  			\centering
+  			\includegraphics[width=\linewidth]{Relative Error.png}
+  			\caption{Relative Error Comparison}
+  			\label{RelError}
+		\end{figure}
+		
+		\begin{figure}[h]
+  			\centering
+  			\includegraphics[width=\linewidth]{Time.png}
+  			\caption{Time Comparison}
+  			\label{Time}
+		\end{figure}
+    	
+    \item %Q1.b
+    	When ignoring the faulty implementation, all three algorithms have the capacity to factorize most square matrices, but because we didn't supplied the ability to pivot neither the rows, nor the columns, it is impossible to argue that any of the implemented algorithms, working as intended, can factorize any square matrix, even if that square matrix is factorizable after partial or complete pivoting.
+
+\end{enumerate}
+\end{document}
+
