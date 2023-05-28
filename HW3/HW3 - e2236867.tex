@@ -1,0 +1,123 @@
+\documentclass[10pt,a4paper, margin=1in]{article}
+\usepackage{fullpage}
+\usepackage{amsfonts, amsmath, pifont}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\graphicspath{ {./} }
+
+\usepackage{float}
+\usepackage{multirow}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=10mm,
+ right=10mm,
+ top=10mm,
+ bottom=10mm,
+ }
+ \author{
+  Ağış, Fırat\\
+  \texttt{e2236867@ceng.metu.edu.tr}
+}
+\title{CENG 371 - Scientific Computing \\
+Fall 2022 \\
+Homework 3}
+\begin{document}
+\maketitle
+
+\noindent\rule{19cm}{1.2pt}
+
+\begin{enumerate}
+    \item %Q1
+    \begin{enumerate}
+    	\item[c)]For the matrix $$A = \begin{bmatrix}
+    	2&-1&0&0&0\\
+    	-1&2&-1&0&0\\
+    	0&-1&2&-1&0\\
+    	0&0&-1&2&-1\\
+    	0&0&0&-1&2\\
+    	\end{bmatrix}$$
+    	largest eigenpair $(\lambda_{\text{max}},v_{\text{max}})$ using power method and smallest eigenpair $(\lambda_{\text{min}},v_{\text{min}})$ using inverse power method with shifting (as $A$ is not invertable without shifting) with $\alpha=0.001$ and $$x_0=\begin{bmatrix} 1\\1\\1 \end{bmatrix}$$ for both are
+    	\begin{align*}
+    		\lambda_{\text{max}} &= 3.7321, &v_{\text{max}} &=  \begin{bmatrix}0.2887\\ -0.5000\\0.5774\\-0.5000\\0.2887\end{bmatrix}\\
+    		\lambda_{\text{min}} &= 0.2679, &v_{\text{min}} &=  \begin{bmatrix}0.2887\\ 0.5000\\0.5774\\0.5000\\0.2887\end{bmatrix}
+    	\end{align*}
+    	If we calculate relative error as $\frac{\|Av-\lambda v\|_2}{|\lambda |}$,
+    	\begin{align*}
+    		\frac{\|Av_{\text{max}}-\lambda_{\text{max}} v_{\text{max}}\|_2}{|\lambda_{\text{max}} |} &= 1.3370e-15\\
+    		\frac{\|Av_{\text{min}}-\lambda_{\text{min}} v_{\text{min}}\|_2}{|\lambda_{\text{min}} |} &= 2.4979e-15
+    	\end{align*}
+    	\item[d)] For $$B = \begin{bmatrix}
+    	0.2&0.3&-0.5\\
+    	0.6&-0.8&0.2\\
+    	-1.0&0.1&0.9
+    	\end{bmatrix}, x_0 = \begin{bmatrix} 1\\1\\1 \end{bmatrix}$$
+    	If we use power method by hand,
+    	\begin{align*}
+    	x_1 &= Bx_0 &= \begin{bmatrix}
+    	0.2&0.3&-0.5\\
+    	0.6&-0.8&0.2\\
+    	-1.0&0.1&0.9
+    	\end{bmatrix} * \begin{bmatrix} 1\\1\\1 \end{bmatrix} &= \begin{bmatrix} 0.2+0.3-0.5\\0.6-0.8+0.2\\-1.0+0.1+0.9 \end{bmatrix} &= \begin{bmatrix} 0\\0\\0 \end{bmatrix}\\
+    	x_2 &= Bx_1 &= \begin{bmatrix}
+    	0.2&0.3&-0.5\\
+    	0.6&-0.8&0.2\\
+    	-1.0&0.1&0.9
+    	\end{bmatrix} * \begin{bmatrix} 0\\0\\0 \end{bmatrix} &= \begin{bmatrix} 0+0+0\\0+0+0\\0+0+0 \end{bmatrix} &= \begin{bmatrix} 0\\0\\0 \end{bmatrix}\\
+    	\end{align*}
+    	As $x_1=x_2$, $x$ converges to $0$, meaning power method by hand failed to find the eigenpair. If we use the power method we implemented in MATLAB, the eigenpair is computes as $$(\lambda,v)=\left(1.3427, \begin{bmatrix} -0.407031\\ -0.028761\\ 0.912961\end{bmatrix}\right).$$
+    	This means $$\begin{bmatrix} 0.2+0.3-0.5\\0.6-0.8+0.2\\-1.0+0.1+0.9 \end{bmatrix} \neq \begin{bmatrix} 0\\0\\0 \end{bmatrix},$$ probably because of cancellation errors, causing the $x$ to converge without getting canceled out completely.
+    \end{enumerate}
+    	
+    \item %Q2
+     	\begin{enumerate}
+     		\item[a)]
+     		If $v_iv_i^T$ is orthogonal or at least equal to a multiple of $I$, most likely it is $v_i^Tv_iI$, then $$\lambda_i\frac{v_iv_i^T}{v_i^Tv_i} = \lambda_i I.$$ So, if this condition holds, what we are doing is removing $\lambda_i$ from the eigenvalues of $A$, meaning the second greatest in absolute value eigenvalue becomes the greatest eigenvalue in absolute value of $A-\lambda_1 I$ and so on. 
+     		
+     		To prove $\frac{v_iv_i^T}{v_i^Tv_i}=I,$ lets take $v_i, \lambda_i$, which are eigenpairs of the real symmetric matrix $A$. Because $A$ is real symmetric, there exists a eigendecomposition $A=V\Lambda V^T$ where 
+     		\begin{align*}
+     			V &= \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}\\
+     			\Lambda &= \begin{bmatrix} 
+     			\lambda_ 1 & & &\\
+     			 & \lambda_2 & & \\
+     			 & & \ddots & \\
+     			 & & & \lambda_n
+     			\end{bmatrix}\\
+     			VV^T &= I\\
+     			\begin{bmatrix} 
+     			1 & & &\\
+     			 & 1 & & \\
+     			 & & \ddots & \\
+     			 & & & 1
+     			\end{bmatrix} &= \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}\begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}\\
+				\begin{bmatrix}      			
+     			1 & & &\\
+     			 & 1 & & \\
+     			 & & \ddots & \\
+     			 & & & 1
+     			\end{bmatrix} &= \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}\begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}\\
+     			v_iv_i^T &= I\\
+     			v_i^Tv_i &= 1
+     		\end{align*}
+     		\item[d)] 
+     		\begin{figure}[h]
+  			\centering
+  			\includegraphics[width=0.6\textwidth]{Error.png}
+  			\caption{Relative Error Comparison}
+  			\label{RelError}
+		\end{figure}
+		
+		\begin{figure}[h]
+  			\centering
+  			\includegraphics[width=0.6\textwidth]{Time.png}
+  			\caption{Time Comparison}
+  			\label{Time}
+		\end{figure}
+     	\end{enumerate}
+    	
+		Because we used same convergence metric, there is no significant difference between the both algorithms, their performance in term of relative error but in term of time performance, subspace iteration is significantly worse. This is because it takes a lot of time to converge, making it slower than calculating each eigenpair separately.
+\end{enumerate}
+\end{document}
+
