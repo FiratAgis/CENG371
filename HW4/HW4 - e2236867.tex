@@ -1,0 +1,81 @@
+\documentclass[10pt,a4paper, margin=1in]{article}
+\usepackage{fullpage}
+\usepackage{amsfonts, amsmath, pifont}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\graphicspath{ {./} }
+
+\usepackage{float}
+\usepackage{multirow}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=10mm,
+ right=10mm,
+ top=10mm,
+ bottom=20mm,
+ }
+ \author{
+  Ağış, Fırat\\
+  \texttt{e2236867@ceng.metu.edu.tr}
+}
+\title{CENG 371 - Scientific Computing \\
+Fall 2022 \\
+Homework 4}
+\begin{document}
+\maketitle
+
+\noindent\rule{19cm}{1.2pt}
+
+\begin{enumerate}
+    \item[a]
+    	Because of the random nature of approximation, especially the Gaussian Distribution Matrix $\Omega$, I averaged out relative errors from multiple runs to get a better picture of the correlation between $k$ and relative error, 50 runs in the case of cameraman.jpg and 10 runs in the case of fingerprint.jpg. Then I plotted the relative error of actual Single Value Decomposition (SVD)($actual$), relative error of a single run of SVD approximation($approx_1$) and average error of all SVD approximation runs($approx_{avg}$) in Figures \ref{cameraRelError} and \ref{fingerRelError}.
+    	
+    	From $approx_{avg}$ we can observe that as the $k$ increases, the relative error of SVD approximation tends to shrink, mimicking the shape of the relative error of actual SVD, but  due to the randomly introduced by $\Omega$, increasing $k$ does not guarantee a reduction in relative error, demonstrated by $approx_1$. 
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[width=0.7\textwidth]{cameraman_plot.png}
+    		\caption{Relative Error Comparison of cameraman.jpg}
+  			\label{cameraRelError}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\textwidth]{fingerprint_plot.png}
+			\caption{Relative Error Comparison of fingerprint.jpg}
+  			\label{fingerRelError}
+		\end{figure}
+    \item[b]
+    	As seen in Figures \ref{cameraTime} and \ref{fingerTime}, SVD approximation is about 100 times faster in the case of cameraman.jpg and about 10 time faster in the case of fingerprint.jpg. regardless of the $k$ value. This is because the SVD decomposition is done on the smaller matrix $B = A\Omega$ where $B\in \mathcal{R}^{m \times k+p}, k\ll n$. 
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[width=0.7\textwidth]{cameraman_time.png}
+    		\caption{Time Comparison of cameraman.jpg}
+  			\label{cameraTime}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\textwidth]{fingerprint_time.png}
+			\caption{Time Comparison of fingerprint.jpg}
+  			\label{fingerTime}
+		\end{figure}
+    \item[c]
+    	When we compare the results of SVD in the Figures \ref{cameraPhoto} and \ref{fingerPhoto}, for very small $k$ values, like $k=10$, in the approximate images, more detail is kept but the amount of detail kept is not uniform, probably because of the value of the $\Omega$. For the greater $k$ values, like $k = 100$ or $k = 200$, the difference between the quality of the images that was give by Figures \ref{cameraRelError} and \ref{fingerRelError} is not noticable to my eyes, especially for the case of $k=200$. At the $k=200$ point, the difference between the approximate SVD and the original image is so little that it is not noticeable for me.
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[width=0.7\textwidth]{cameraman_vert.jpg}
+    		\caption{SVD Decomposition of cameraman.jpg for $k = 10, 50, 100, 200$, Approximate Result on the Left}
+  			\label{cameraPhoto}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\textwidth]{fingerprint_vert.jpg}
+			\caption{SVD Decomposition of fingerprint.jpg for $k = 10, 50, 100, 200$, Approximate Result on the Left}
+  			\label{fingerPhoto}
+		\end{figure}
+    \item[d]
+    	Easy answer for this question would by approximate SVD can be used instead of SVD in the applications where the accuracy is not a big concern or the computation time is a greater concern. But visual areas, like image processing, due to the limitation of human visual system, it can be used instead of full-rank SVD without creating a noticeable difference and greatly increasing computation times.
+\end{enumerate}
+\end{document}
+
